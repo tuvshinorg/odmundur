@@ -1423,7 +1423,7 @@ body.light-mode .border-theme {
 
 .podcast-card-image-container {
     position: relative;
-    width: 100%;
+    inline-size: 100%;
     background-color: #444;
 }
 
@@ -1496,5 +1496,5 @@ body.light-mode .border-theme {
 .podcast-card-placeholder {
     background-color: #666;
     aspect-ratio: 16/9;
-    height: 230px;
+    height: 180px;
 }
