@@ -1,0 +1,1502 @@
+/* Bootstrap Integration with Custom Theme
+ * This file combines Bootstrap with your custom styling
+ */
+
+/* Import Bootstrap CSS first */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+/* Custom Theme Variables */
+:root {
+    --primary-color: #e91e63;
+    --primary-color-hover: #d81557;
+    --secondary-color: #5044ff;
+    --secondary-color-hover: #4035e0;
+
+    /* Light Mode Variables */
+    --light-bg: #f5f5f5;
+    --light-bg-card: #ffffff;
+    --light-text: #333;
+    --light-border: #e0e0e0;
+    --light-shadow: rgba(0, 0, 0, 0.1);
+
+    /* Dark Mode Variables */
+    --dark-bg: #121212;
+    --dark-bg-card: #1E1E1E;
+    --dark-bg-card-highlight: #222;
+    --dark-text: #fff;
+    --dark-text-muted: #aaa;
+    --dark-border: #333;
+    --dark-shadow: rgba(0, 0, 0, 0.2);
+}
+
+/* General Styles - Override Bootstrap Base */
+body {
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Theme Management - Dark Mode (Default) */
+body {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+/* Light Mode Toggle */
+body.light-mode {
+    background-color: var(--light-bg);
+    color: var(--light-text);
+}
+
+/* Container (Keep Bootstrap's container system) */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Header - Modified for Bootstrap */
+header {
+    background-color: var(--dark-bg);
+    padding: 15px 0;
+    box-shadow: 0 2px 10px var(--dark-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color 0.3s;
+}
+
+body.light-mode header {
+    background-color: var(--light-bg-card);
+    box-shadow: 0 2px 10px var(--light-shadow);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 30px;
+}
+
+/* Navigation Tools */
+.nav-tools {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-icon,
+.cart-icon,
+.profile-icon {
+    color: var(--dark-text);
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+body.light-mode .search-icon,
+body.light-mode .cart-icon,
+body.light-mode .profile-icon {
+    color: var(--light-text);
+}
+
+/* Dark Mode Toggle - Replaced with Bootstrap implementation */
+.dark-mode-toggle {
+    background-color: #333;
+    border-radius: 15px;
+    width: 40px;
+    height: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+body.light-mode .dark-mode-toggle {
+    background-color: #e0e0e0;
+}
+
+.toggle-handle {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: #f5d742;
+    border-radius: 50%;
+    transition: left 0.3s, right 0.3s, background-color 0.3s;
+    right: 3px;
+    left: auto;
+    top: 3px;
+}
+
+body.light-mode .toggle-handle {
+    background-color: #555;
+    right: auto;
+    left: 3px;
+}
+
+/* Mobile Menu Toggle - Using Bootstrap Standards */
+.mobile-menu-toggle {
+    display: none;
+    color: var(--dark-text);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+body.light-mode .mobile-menu-toggle {
+    color: var(--light-text);
+}
+
+/* Primary Navbar - Using Bootstrap Standards */
+.main-nav {
+    background-color: var(--dark-bg);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--dark-border);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+body.light-mode .main-nav {
+    background-color: var(--light-bg-card);
+    border-bottom: 1px solid var(--light-border);
+}
+
+/* Bootstrap-compatible Nav Links */
+.nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.nav-link {
+    color: var(--dark-text);
+    text-decoration: none;
+    padding: 5px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: color 0.3s, background-color 0.3s;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.fs-nav {
+    font-size: 25px;
+}
+
+body.light-mode .nav-link {
+    color: var(--light-text);
+}
+
+.nav-link.active {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.nav-link:hover:not(.active) {
+    background-color: rgba(233, 30, 99, 0.1);
+}
+
+/* Content Header */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    flex-wrap: wrap;
+}
+
+.title {
+    color: var(--dark-text);
+    font-size: 18px;
+    font-weight: 600;
+    transition: color 0.3s;
+    margin-bottom: 10px;
+}
+
+body.light-mode .title {
+    color: var(--light-text);
+}
+
+/* View Controls - Bootstrap Button Group Inspired */
+.view-controls {
+    display: flex;
+    gap: 0;
+    background-color: #333;
+    border-radius: 5px;
+    padding: 3px;
+}
+
+.view-btn {
+    padding: 5px 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.view-btn.active {
+    background-color: #444;
+}
+
+/* Main Content - Adapt to Bootstrap structure */
+.main-content {
+    background-color: var(--dark-bg);
+    padding-bottom: 50px;
+    transition: background-color 0.3s;
+    padding-top: 20px;
+}
+
+body.light-mode .main-content {
+    background-color: var(--light-bg);
+}
+
+/* Program Grid - Using Bootstrap card patterns */
+.program-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Grid View - Adapted to work with Bootstrap */
+.program-grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* List View - Adapted to work with Bootstrap */
+.program-list-view {
+    display: flex;
+    flex-direction: column;
+}
+
+.program-list-view .program-card {
+    display: flex;
+    height: auto;
+    margin-bottom: 15px;
+    flex-direction: row;
+}
+
+.program-list-view .program-image {
+    width: 40%;
+    height: 100px;
+    min-width: 120px;
+}
+
+.program-list-view .program-title {
+    position: relative;
+    background: none;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    font-size: 14px;
+}
+
+.program-list-view .program-duration {
+    top: 10px;
+    bottom: auto;
+    font-size: 12px;
+}
+
+/* Card Components - Styled to match Bootstrap cards */
+.program-card {
+    background-color: var(--dark-bg-card-highlight);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s, background-color 0.3s;
+    cursor: pointer;
+}
+
+body.light-mode .program-card {
+    background-color: var(--light-bg-card);
+    box-shadow: 0 2px 8px var(--light-shadow);
+}
+
+.program-card:hover {
+    transform: translateY(-5px);
+}
+
+.program-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.program-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.program-duration {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+/* Day Header - Modified to use Bootstrap styles */
+.day-header {
+    background-color: var(--dark-bg-card-highlight);
+    color: var(--dark-text);
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    grid-column: 1 / -1;
+}
+
+body.light-mode .day-header {
+    background-color: var(--light-border);
+    color: var(--light-text);
+}
+
+/* Calendar - Retained but styled to match Bootstrap */
+.calendar {
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f5f5f5;
+}
+
+.calendar-title {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 0;
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 15px;
+}
+
+.calendar-nav-btn {
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(80px, 1fr));
+    min-width: 560px;
+}
+
+.calendar-day {
+    border: 1px solid #eee;
+    padding: 5px;
+    color: #333;
+    position: relative;
+}
+
+.calendar-day-label {
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.day-number {
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.calendar-event {
+    margin-top: 5px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* background-color: #f0f4ff; */
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    /* white-space: nowrap; */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    color: #fff;
+    /* color: #333; */
+}
+
+/* Detail View - Modified to match Bootstrap Card */
+.program-detail {
+    padding: 20px;
+    background-color: var(--dark-bg-card-highlight);
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+body.light-mode .program-detail {
+    background-color: var(--light-bg-card);
+    box-shadow: 0 2px 8px var(--light-shadow);
+}
+
+.program-detail-header {
+    color: var(--dark-text);
+    margin-bottom: 20px;
+}
+
+body.light-mode .program-detail-header {
+    color: var(--light-text);
+}
+
+.program-detail-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.program-description {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.broadcast-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.broadcast-item {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+body.light-mode .broadcast-item {
+    background-color: #f5f5f5;
+}
+
+.broadcast-channel {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.broadcast-time {
+    font-size: 14px;
+    color: var(--dark-text-muted);
+}
+
+body.light-mode .broadcast-time {
+    color: #666;
+}
+
+/* Bootstrap-Compatible Buttons */
+.add-to-cart-btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 1.5rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    background-color: var(--primary-color);
+    color: #fff;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-to-cart-btn:hover {
+    background-color: var(--primary-color-hover);
+}
+
+/* Cart View - Modified to work with Bootstrap card styles */
+.cart-items {
+    padding: 20px;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+body.light-mode .cart-items {
+    background-color: transparent;
+}
+
+.cart-title {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--dark-border);
+}
+
+body.light-mode .cart-title {
+    border-bottom: 1px solid var(--light-border);
+}
+
+.cart-title h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.cart-item {
+    background-color: var(--dark-bg-card);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+body.light-mode .cart-item {
+    background-color: #f8f8f8;
+}
+
+.cart-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.cart-item-add {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--dark-text-muted);
+}
+
+body.light-mode .cart-item-add {
+    color: #666;
+}
+
+.add-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: #444;
+    color: #ccc;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+body.light-mode .add-icon {
+    background-color: #ddd;
+    color: #666;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #777;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.light-mode .remove-btn {
+    color: #999;
+}
+
+.cart-item-content {
+    display: flex;
+    gap: 20px;
+}
+
+.cart-item-image {
+    width: 120px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.cart-options {
+    list-style: none;
+    flex: 1;
+    padding-left: 0;
+}
+
+.cart-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    color: var(--dark-text-muted);
+    font-size: 14px;
+}
+
+body.light-mode .cart-option {
+    color: #666;
+}
+
+.option-icon {
+    color: var(--dark-text-muted);
+    width: 24px;
+    text-align: center;
+}
+
+body.light-mode .option-icon {
+    color: #666;
+}
+
+.cart-summary {
+    background-color: var(--dark-bg-card);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+body.light-mode .cart-summary {
+    background-color: #f0f0f0;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--dark-border);
+}
+
+body.light-mode .summary-row {
+    border-bottom: 1px solid var(--light-border);
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.checkout-btn {
+    display: block;
+    width: 100%;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.checkout-btn:hover {
+    background-color: var(--primary-color-hover);
+}
+
+/* Authentication Forms - Modified to work with Bootstrap */
+.auth-card {
+    background-color: var(--dark-bg-card);
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 400px;
+    margin: 40px auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+body.light-mode .auth-card {
+    background-color: #fff;
+    box-shadow: 0 8px 16px var(--light-shadow);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.auth-header p {
+    color: var(--dark-text-muted);
+    font-size: 14px;
+}
+
+body.light-mode .auth-header p {
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--dark-text-muted);
+}
+
+body.light-mode .form-group label {
+    color: #666;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+}
+
+body.light-mode .form-control {
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.25rem rgba(80, 68, 255, 0.25);
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.auth-btn:hover {
+    background-color: var(--primary-color-hover);
+}
+
+.form-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--dark-text-muted);
+}
+
+body.light-mode .form-footer {
+    color: #666;
+}
+
+.form-footer a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Alert messages - Using Bootstrap's alert component styling */
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-error,
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+/* Custom dark mode versions of alerts */
+body.dark-mode .alert-success {
+    background-color: rgba(46, 204, 113, 0.2);
+    border-color: rgba(46, 204, 113, 0.5);
+    color: #2ecc71;
+}
+
+body.dark-mode .alert-error,
+body.dark-mode .alert-danger {
+    background-color: rgba(231, 76, 60, 0.2);
+    border-color: rgba(231, 76, 60, 0.5);
+    color: #e74c3c;
+}
+
+body.dark-mode .alert-info {
+    background-color: rgba(52, 152, 219, 0.2);
+    border-color: rgba(52, 152, 219, 0.5);
+    color: #3498db;
+}
+
+/* Footer Styles - Modified for Bootstrap compatibility */
+footer {
+    background-color: var(--dark-bg);
+    padding: 30px 0;
+    text-align: center;
+    border-top: 1px solid var(--dark-border);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+body.light-mode footer {
+    background-color: var(--light-bg-card);
+    border-top: 1px solid var(--light-border);
+}
+
+.footer-logo img {
+    height: 30px;
+    margin-bottom: 20px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-left: 0;
+    list-style: none;
+}
+
+.social-link,
+.social-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    background-color: #333;
+    border-radius: 50%;
+    color: #fff;
+    text-decoration: none;
+}
+
+body.light-mode .social-link,
+body.light-mode .social-icon {
+    background-color: #eee;
+    color: #333;
+}
+
+.footer-info {
+    color: #888;
+    font-size: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+    transition: color 0.3s;
+    padding: 0 15px;
+}
+
+body.light-mode .footer-info {
+    color: #666;
+}
+
+.contact-phone {
+    color: var(--dark-text-muted);
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+body.light-mode .contact-phone {
+    color: #666;
+}
+
+.more-btn {
+    display: block;
+    margin: 30px auto;
+    background-color: var(--secondary-color);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.more-btn:hover {
+    background-color: var(--secondary-color-hover);
+    transform: translateY(-2px);
+}
+
+.more-btn:active {
+    transform: translateY(0);
+}
+
+/* Nav tabs - Modified to match Bootstrap nav-tabs */
+.nav-tabs {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    border-bottom: 0;
+}
+
+.nav-tab {
+    background-color: #333;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+}
+
+body.light-mode .nav-tab {
+    background-color: #eee;
+    color: #333;
+}
+
+.nav-tab.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+/* Flash message - Modified to use Bootstrap toast styling */
+.flash-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 15px 25px;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+.flash-success {
+    background-color: #2ecc71;
+    color: #fff;
+}
+
+.flash-error {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.flash-info {
+    background-color: #3498db;
+    color: #fff;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Mobile Responsive Styles - Using Bootstrap's responsive approach */
+@media (max-width: 767.98px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    .nav-tools {
+        gap: 10px;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .program-grid-view {
+        grid-template-columns: 1fr;
+    }
+
+    .program-list-view .program-image {
+        width: 40%;
+        min-width: 100px;
+    }
+
+    .program-list-view .program-title {
+        font-size: 14px;
+        padding-left: 10px;
+    }
+
+    .calendar {
+        margin: 10px 0;
+    }
+
+    .calendar-grid {
+        font-size: 12px;
+    }
+
+    .broadcast-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cart-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .remove-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .view-controls {
+        margin-bottom: 15px;
+    }
+
+    .cart-item-content {
+        flex-direction: column;
+    }
+
+    .cart-item-image {
+        width: 100%;
+        height: 120px;
+    }
+
+    .social-links {
+        gap: 10px;
+    }
+
+    .footer-info {
+        font-size: 11px;
+    }
+
+    .nav-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 5px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .program-grid-view {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .broadcast-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* For print media - Adapted from Bootstrap's print classes */
+@media print {
+    body {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    header,
+    .main-nav,
+    footer,
+    .view-controls,
+    .more-btn {
+        display: none !important;
+    }
+
+    .main-content {
+        padding: 0 !important;
+    }
+
+    .program-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Bootstrap Integration Helpers */
+/* Bootstrap Overrides for themes */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--primary-color-hover);
+    border-color: var(--primary-color-hover);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Dark mode adaptations for common Bootstrap components */
+body.dark-mode .card {
+    background-color: var(--dark-bg-card);
+    border-color: var(--dark-border);
+    color: var(--dark-text);
+}
+
+body.dark-mode .table {
+    color: var(--dark-text);
+}
+
+body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .modal-content {
+    background-color: var(--dark-bg-card);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+    background-color: #333;
+    border-color: var(--dark-border);
+    color: var(--dark-text);
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+    background-color: #333;
+    color: var(--dark-text);
+    border-color: var(--secondary-color);
+}
+
+body.dark-mode .input-group-text {
+    background-color: #444;
+    border-color: var(--dark-border);
+    color: var(--dark-text);
+}
+
+/* Bootstrap Navbar dark/light adaptations */
+body.dark-mode .navbar-light {
+    background-color: var(--dark-bg) !important;
+}
+
+body.dark-mode .navbar-light .navbar-brand,
+body.dark-mode .navbar-light .navbar-nav .nav-link {
+    color: var(--dark-text);
+}
+
+body.dark-mode .dropdown-menu {
+    background-color: var(--dark-bg-card);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .dropdown-item {
+    color: var(--dark-text);
+}
+
+body.dark-mode .dropdown-item:hover,
+body.dark-mode .dropdown-item:focus {
+    background-color: #333;
+    color: var(--dark-text);
+}
+
+/* Helper classes for theme-consistent colors */
+.bg-theme {
+    background-color: var(--dark-bg);
+}
+
+body.light-mode .bg-theme {
+    background-color: var(--light-bg);
+}
+
+.bg-theme-card {
+    background-color: var(--dark-bg-card);
+}
+
+body.light-mode .bg-theme-card {
+    background-color: var(--light-bg-card);
+}
+
+.text-theme {
+    color: var(--dark-text);
+}
+
+body.light-mode .text-theme {
+    color: var(--light-text);
+}
+
+.text-theme-muted {
+    color: var(--dark-text-muted);
+}
+
+body.light-mode .text-theme-muted {
+    color: #666;
+}
+
+.border-theme {
+    border-color: var(--dark-border);
+}
+
+body.light-mode .border-theme {
+    border-color: var(--light-border);
+}
+
+
+/* Skeleton loader styles */
+.skeleton-container {
+    width: 100%;
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.skeleton-header {
+    height: 40px;
+    width: 60%;
+    margin-bottom: 20px;
+}
+
+.skeleton-card {
+    height: 200px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.skeleton-text {
+    height: 15px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.skeleton-text-short {
+    width: 60%;
+}
+
+.skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Dark mode skeleton styles */
+.dark-mode .skeleton {
+    background: linear-gradient(90deg, #303030 25%, #3a3a3a 50%, #303030 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+/* Hide skeleton when content is loaded */
+.content-loaded .skeleton-container {
+    display: none;
+}
+
+.podcast-card {
+    font-family: 'Oswald', sans-serif;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.podcast-card-image-container {
+    position: relative;
+    width: 100%;
+    background-color: #444;
+}
+
+.podcast-card-image-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(0, 0, 0, 0.6) 60%,
+            rgba(0, 0, 0, 1) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.podcast-card-img {
+    width: 100%;
+    display: block;
+    position: relative;
+    z-index: 0;
+}
+
+.podcast-card-watermark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(37, 37, 37, 0.85);
+    color: white;
+    padding: 2px 2px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    z-index: 2;
+}
+
+.podcast-card-subtitle-text {
+    color: #FFD700;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 3px 6px;
+    margin-top: 3px;
+    border-radius: 3px;
+    display: inline-block;
+    position: relative;
+    z-index: 3;
+}
+
+.podcast-card-title-box {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+}
+
+.podcast-card-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFD700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    position: relative;
+    z-index: 3;
+}
+
+/* Placeholder background for demo */
+.podcast-card-placeholder {
+    background-color: #666;
+    aspect-ratio: 16/9;
+    height: 230px;
+}

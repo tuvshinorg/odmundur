@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ODMUNDUR.MN</title>
+    <link rel="stylesheet" href="/src/css/style.css?v=16">
+    <link rel="stylesheet" href="/src/css/icons.css" type="text/css">
+    <script>
+        // Set page title dynamically if needed
+        document.addEventListener('DOMContentLoaded', () => {
+            const path = window.location.pathname;
+            const currentPage = path.substring(path.lastIndexOf('/') + 1);
+            const queryParams = new URLSearchParams(window.location.search);
+            const pageParam = queryParams.get('page');
+            if (pageParam) {
+                document.title = `${pageParam.toUpperCase()} - ODMUNDUR.MN`;
+            }
+            // Initialize dark mode
+            initDarkMode();
+            // Display flash message if exists
+            displayFlashMessage();
+
+            // Add event listeners - with checks to ensure elements exist
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            }
+
+            const darkModeToggle = document.querySelector('.dark-mode-toggle');
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', toggleDarkMode);
+            }
+        });
+
+        // Dark mode functionality
+        function initDarkMode() {
+            const darkMode = localStorage.getItem('darkMode') === 'true' || true;
+            document.body.className = darkMode ? 'dark-mode' : 'light-mode';
+            // Update toggle appearance
+            const toggle = document.querySelector('.dark-mode-toggle');
+            if (toggle) {
+                toggle.classList.toggle('active', darkMode);
+            }
+        }
+
+        function toggleDarkMode() {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const newMode = !isDarkMode;
+            document.body.className = newMode ? 'dark-mode' : 'light-mode';
+            localStorage.setItem('darkMode', newMode);
+            // Update toggle appearance
+            const toggle = document.querySelector('.dark-mode-toggle');
+            if (toggle) {
+                toggle.classList.toggle('active', newMode);
+            }
+        }
+
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const nav = document.querySelector('nav.nav-tools');
+            if (nav) {
+                nav.classList.toggle('mobile-menu-open');
+            }
+        }
+
+        // Flash message functionality
+        function displayFlashMessage() {
+            const flashMessage = getFlashMessage();
+            if (flashMessage) {
+                const messageContainer = document.createElement('div');
+                messageContainer.className = `flash-message flash-${flashMessage.type}`;
+                messageContainer.textContent = flashMessage.text;
+                const header = document.querySelector('header');
+                if (header) {
+                    header.parentNode.insertBefore(messageContainer, header.nextSibling);
+                    // Auto-remove after 5 seconds
+                    setTimeout(() => {
+                        messageContainer.remove();
+                    }, 5000);
+                }
+            }
+        }
+
+        // Helper function to get flash messages from localStorage
+        function getFlashMessage() {
+            const message = localStorage.getItem('flashMessage');
+            if (message) {
+                localStorage.removeItem('flashMessage');
+                return JSON.parse(message);
+            }
+            return null;
+        }
+
+        // Helper function to set flash messages
+        function setFlashMessage(type, text) {
+            localStorage.setItem('flashMessage', JSON.stringify({ type, text }));
+        }
+
+        // Check login status
+        function isUserLoggedIn() {
+            return localStorage.getItem('userLoggedIn') === 'true';
+        }
+
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // Function to get or create UUID in localStorage
+        function getOrCreateUUID(storageKey = 'uuid') {
+            // Check if UUID already exists in localStorage
+            let uuid = localStorage.getItem(storageKey);
+
+            // If UUID doesn't exist, generate a new one and store it
+            if (!uuid) {
+                uuid = generateUUID();
+                localStorage.setItem(storageKey, uuid);
+                console.log('New UUID generated and stored:', uuid);
+            } else {
+                console.log('Retrieved existing UUID:', uuid);
+            }
+
+            return uuid;
+        }
+
+        // Call the function to get or create UUID
+        const userUUID = getOrCreateUUID();
+
+        // Example usage
+        console.log('User UUID:', userUUID);
+    </script>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="/src/img/logo.png" alt="ODMUNDUR.MN Logo">
+                </a>
+            </div>
+            <nav class="nav-tools">
+                <div class="mgc_menu_line fs-nav mobile-menu-toggle" aria-label="Toggle menu"></div>
+                <div class="mgc_search_2_line fs-nav" onclick="window.location.href=`index.html?page=search`"></div>
+                <div class="mgc_shopping_cart_1_line fs-nav" onclick="window.location.href=`index.html?page=cart`">
+                </div>
+                <div class="mgc_user_4_line fs-nav" onclick="window.location.href=`index.html?page=user`"></div>
+                <div id="toggleLightButton" class="mgc_sun_line fs-nav"></div>
+                <div id="toggleDarkButton" class="mgc_moon_line fs-nav"></div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Navigation Section -->
+    <div class="main-nav">
+        <div class="container">
+            <div class="nav-links">
+                <a href="index.html?page=calendar" class="nav-link" data-section="calendar-section">КАЛЕНДАРЬ</a>
+                <a href="index.html?page=today" class="nav-link" data-section="today-section">ӨНӨӨДӨР</a>
+                <a href="index.html?page=week" class="nav-link" data-section="week-section">ЭНЭ 7 ХОНОГТ</a>
+                <a href="index.html?page=podcasts" class="nav-link" data-section="podcasts-section">НЭВТРҮҮЛГҮҮД</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="mainContent" class="container">
+            <!-- Skeleton loader will show here while content is loading -->
+            <div id="skeletonLoader" class="skeleton-container">
+                <!-- Calendar/Default Page Skeleton -->
+                <div class="skeleton-page" data-page="calendar">
+                    <div class="skeleton skeleton-header"></div>
+                    <div class="skeleton-grid">
+                        <div class="skeleton skeleton-card"></div>
+                        <div class="skeleton skeleton-card"></div>
+                        <div class="skeleton skeleton-card"></div>
+                        <div class="skeleton skeleton-card"></div>
+                    </div>
+                </div>
+
+                <!-- Today Page Skeleton -->
+                <div class="skeleton-page" data-page="today" style="display: none;">
+                    <div class="skeleton skeleton-header"></div>
+                    <div class="skeleton skeleton-card"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text skeleton-text-short"></div>
+                </div>
+
+                <!-- Week Page Skeleton -->
+                <div class="skeleton-page" data-page="week" style="display: none;">
+                    <div class="skeleton skeleton-header"></div>
+                    <div class="skeleton-grid">
+                        <div class="skeleton skeleton-card"></div>
+                        <div class="skeleton skeleton-card"></div>
+                        <div class="skeleton skeleton-card"></div>
+                    </div>
+                </div>
+
+                <!-- Podcasts Page Skeleton -->
+                <div class="skeleton-page" data-page="podcasts" style="display: none;">
+                    <div class="skeleton skeleton-header"></div>
+                    <div class="skeleton skeleton-card"></div>
+                    <div class="skeleton skeleton-card"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text skeleton-text-short"></div>
+                </div>
+            </div>
+            <!-- Actual content will be loaded here -->
+            <div id="actualContent"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="/src/img/logo.png" alt="Logo">
+            </div>
+
+            <div class="social-links">
+                <a href="https://www.facebook.com/OdmundurMedia" class="social-link" aria-label="Facebook">
+                    <div class="mgc_facebook_line fs-nav"></div>
+                </a>
+                <a href="https://www.youtube.com/@ODMUNDUR" class="social-link" aria-label="YouTube">
+                    <div class="mgc_youtube_line fs-nav"></div>
+                </a>
+                <a href="https://www.instagram.com/odmundurmedia/" class="social-link" aria-label="Instagram">
+                    <div class="mgc_youtube_line fs-nav"></div>
+                </a>
+            </div>
+
+            <div class="contact-phone">(+976) 9008-0028</div>
+
+            <div class="footer-info">
+                © 2024-<span id="current-year"></span> Од Мөндөр ХХК. Бүх эрх хуулиар хамгаалагдсан.<br>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Navigation active link handling
+            const path = window.location.pathname;
+            const currentPage = path.substring(path.lastIndexOf('/') + 1);
+            const queryParams = new URLSearchParams(window.location.search);
+            const pageParam = queryParams.get('page');
+            const productParam = queryParams.get('product');
+            const dateParam = queryParams.get('date');
+            const navLinks = document.querySelectorAll('.nav-links .nav-link');
+
+            // Show appropriate skeleton based on the current page
+            showPageSkeleton(pageParam);
+
+            // Set active class based on current page
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                const linkUrl = new URL(linkHref, window.location.origin);
+                const linkPageParam = new URLSearchParams(linkUrl.search).get('page');
+                const linkProductParam = new URLSearchParams(linkUrl.search).get('product');
+                const linkDateParam = new URLSearchParams(linkUrl.search).get('date');
+
+                // Get the data-section attribute
+                const linkSection = link.getAttribute('data-section');
+
+                // Check if this is the current page
+                if (
+                    // Exact match for the page
+                    currentPage === linkHref ||
+                    // Check for query parameter match (index.html?page=calendar)
+                    (currentPage === 'index.html' && pageParam === linkPageParam) ||
+                    (currentPage === 'index.html' && !pageParam && !productParam && !dateParam && linkSection === 'calendar-section') ||
+                    // Add active class if product param exists but page param doesn't exist
+                    // Also match if the URL ends with the href
+                    path.endsWith(linkHref)
+                ) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Set current year dynamically
+            const yearElement = document.getElementById('current-year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+
+            // Theme handling
+            // Check for saved theme preference
+            const savedDarkMode = localStorage.getItem('darkMode');
+            const toggleLightButton = document.getElementById('toggleLightButton');
+            const toggleDarkButton = document.getElementById('toggleDarkButton');
+
+            // Function to update theme
+            function updateTheme(isDarkMode) {
+                if (isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                    document.body.classList.remove('light-mode');
+                    if (toggleLightButton && toggleDarkButton) {
+                        toggleLightButton.style.display = 'block';
+                        toggleDarkButton.style.display = 'none';
+                    }
+                } else {
+                    document.body.classList.add('light-mode');
+                    document.body.classList.remove('dark-mode');
+                    if (toggleLightButton && toggleDarkButton) {
+                        toggleLightButton.style.display = 'none';
+                        toggleDarkButton.style.display = 'block';
+                    }
+                }
+            }
+
+            // Apply saved theme or default
+            if (savedDarkMode === 'true') {
+                updateTheme(true);
+            } else if (savedDarkMode === 'false') {
+                updateTheme(false);
+            } else {
+                // Default theme if no preference saved
+                updateTheme(true);
+            }
+
+            // Setup theme toggle buttons
+            if (toggleLightButton) {
+                toggleLightButton.addEventListener('click', function () {
+                    updateTheme(false);
+                    saveThemePreference(false);
+                });
+            }
+
+            if (toggleDarkButton) {
+                toggleDarkButton.addEventListener('click', function () {
+                    updateTheme(true);
+                    saveThemePreference(true);
+                });
+            }
+
+            // Legacy dark mode toggle (if exists)
+            const darkModeToggle = document.querySelector('.dark-mode-toggle');
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', function () {
+                    const isDarkMode = !document.body.classList.contains('dark-mode');
+                    updateTheme(isDarkMode);
+                    saveThemePreference(isDarkMode);
+                });
+            }
+
+            // Save theme preference
+            function saveThemePreference(isDarkMode) {
+                localStorage.setItem('darkMode', isDarkMode);
+
+                // Set cookie with JavaScript
+                const expiryDate = new Date();
+                expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Cookie expires in 1 year
+                document.cookie = `darkMode=${isDarkMode}; path=/; expires=${expiryDate.toUTCString()}`;
+            }
+
+            // Mobile menu toggle
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinksContainer = document.querySelector('.nav-links');
+
+            if (mobileMenuToggle && navLinksContainer) {
+                mobileMenuToggle.addEventListener('click', function () {
+                    navLinksContainer.classList.toggle('show');
+                });
+            }
+
+            // Fade out flash messages after 5 seconds
+            const flashMessages = document.querySelectorAll('.flash-message');
+            if (flashMessages.length > 0) {
+                setTimeout(function () {
+                    flashMessages.forEach(msg => {
+                        msg.style.opacity = '0';
+                        msg.style.transition = 'opacity 0.5s ease';
+                        setTimeout(() => msg.remove(), 500);
+                    });
+                }, 5000);
+            }
+
+            // Set correct profile link based on login status
+            const profileLink = document.getElementById('profileLink');
+            if (profileLink) {
+                profileLink.href = isUserLoggedIn() ? 'profile.html' : 'login.html';
+                profileLink.setAttribute('aria-label', isUserLoggedIn() ? 'Your profile' : 'Login');
+            }
+
+            // Call the API function to load content
+            api();
+        });
+
+        // Function to show the appropriate skeleton based on the page
+        function showPageSkeleton(page) {
+            // Hide all skeleton pages first
+            document.querySelectorAll('.skeleton-page').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // Find the matching skeleton for the current page
+            const skeletonPage = document.querySelector(`.skeleton-page[data-page="${page}"]`);
+
+            // If there's a matching skeleton, show it, otherwise show the default/calendar skeleton
+            if (skeletonPage) {
+                skeletonPage.style.display = 'block';
+            } else {
+                document.querySelector(`.skeleton-page[data-page="calendar"]`).style.display = 'block';
+            }
+        }
+
+        // Helper function to get cookie value
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
+
+        // Function to handle form submissions via AJAX if needed
+        function submitForm(formId, callback) {
+            const form = document.getElementById(formId);
+            if (!form) return false;
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (typeof callback === 'function') {
+                            callback(data);
+                        }
+                    })
+                    .catch(error => {
+                        console.log('Error:', error);
+                    });
+            });
+        }
+
+        async function api() {
+            // Get the mainContent element
+            const mainContentElement = document.getElementById('mainContent');
+            const skeletonLoader = document.getElementById('skeletonLoader');
+            const actualContent = document.getElementById('actualContent');
+
+            try {
+                // Get the page parameter from URL if it exists
+                const urlParams = new URLSearchParams(window.location.search);
+                const pageParam = urlParams.get('page'); // Default to calendar
+                const productParam = urlParams.get('product'); // Get product parameter
+                const dateParam = urlParams.get('date'); // Get date parameter
+
+                // Show appropriate skeleton based on the current page
+                showPageSkeleton(pageParam);
+                // Create form data for the POST request
+                const formData = new FormData();
+                formData.append('key', 'xxxx');
+
+                if (!pageParam && !productParam && !dateParam) {
+                    formData.append('page', 'calendar');
+                }
+
+                // If page parameter exists in URL, use it as the action
+                if (pageParam) {
+                    formData.append('page', pageParam);
+                }
+
+                // Always include UUID parameter if it exists
+                if (typeof userUUID !== 'undefined') {
+                    formData.append('uuid', userUUID);
+                }
+
+                // Include product parameter if it exists
+                if (productParam) {
+                    formData.append('product', productParam);
+                    showPageSkeleton('podcasts');
+                }
+
+                // Include date parameter if it exists
+                if (dateParam) {
+                    formData.append('date', dateParam);
+                }
+
+                // Make the POST request to your API endpoint
+                const response = await fetch('https://www.suljee.com/api/index.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                // Check if the request was successful
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Parse the JSON response
+                const data = await response.json();
+
+                // Hide skeleton loader and show actual content
+                if (skeletonLoader) {
+                    skeletonLoader.style.display = 'none';
+                }
+
+                // If the element exists, update its content with the returned data
+                if (actualContent) {
+                    actualContent.innerHTML = data;
+                    actualContent.style.display = 'block';
+                }
+
+                return data;
+            } catch (error) {
+                console.log('Error fetching content:', error);
+
+                // Show error message in place of the skeleton
+                if (skeletonLoader) {
+                    skeletonLoader.innerHTML = `
+                <div class="error-message">
+                    <h3>Одоогоор засагдаж байна!</h3>
+                    <p>Та дараа дахин оролдоно уу</p>
+                    <button class="btn btn-primary" onclick="history.back()">Буцах</button>
+                </div>
+            `;
+                }
+
+                return null;
+            }
+        }
+
+        // Function to check if user is logged in
+        function isUserLoggedIn() {
+            // This is a placeholder - implement according to your authentication logic
+            return !!getCookie('user_session') || !!localStorage.getItem('authToken');
+        }
+    </script>
+</body>
+
+</html>
