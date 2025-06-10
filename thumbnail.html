@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scalable Podcast Thumbnail</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        .thumbnail {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 50px;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        /* For very small sizes (under 250px width) */
+        .micro-mode {
+            display: none;
+        }
+        
+        .micro-mode .podcast-name {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            font-family: 'Bebas Neue', Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 2px 3px;
+            border-radius: 3px;
+            line-height: 1;
+            backdrop-filter: blur(3px);
+        }
+        
+        .micro-mode .main-text {
+            position: absolute;
+            bottom: 3px;
+            left: 2px;
+            right: 2px;
+            font-family: 'Bebas Neue', Arial, sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 0.9;
+            word-wrap: break-word;
+        }
+        
+        .micro-mode .social-handle {
+            display: none; /* Hide on micro size */
+        }
+        
+        .micro-mode .secondary-text {
+            display: none; /* Hide on micro size */
+        }
+        
+        /* For small sizes (250px - 400px) */
+        .small-mode {
+            display: none;
+        }
+        
+        .small-mode .podcast-name {
+            position: absolute;
+            top: 2%;
+            left: 2%;
+            right: 2%;
+            font-family: 'Bebas Neue', Arial, sans-serif;
+            font-size: 2.5vw;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 1% 2%;
+            border-radius: 3px;
+            border: 1px solid;
+            backdrop-filter: blur(3px);
+            line-height: 1;
+        }
+        
+        .small-mode .social-handle {
+            position: absolute;
+            top: 2%;
+            right: 2%;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1.8vw;
+            font-weight: bold;
+            padding: 1% 2%;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
+            color: white;
+            line-height: 1;
+        }
+        
+        .small-mode .content {
+            position: absolute;
+            bottom: 3%;
+            left: 3%;
+            right: 3%;
+        }
+        
+        .small-mode .secondary-text {
+            color: white;
+            font-size: 2.2vw;
+            font-weight: bold;
+            margin-bottom: 1%;
+            font-family: 'Bebas Neue', Arial, sans-serif;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1;
+        }
+        
+        .small-mode .main-text {
+            font-family: 'Bebas Neue', Arial, sans-serif;
+            font-size: 3vw;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 0.9;
+            text-align: center;
+            word-wrap: break-word;
+        }
+        
+        /* For normal sizes (400px+) */
+        .normal-mode .podcast-name {
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            padding: 3% 4%;
+            border-radius: 8px;
+            border: 3px solid;
+            font-family: 'Bebas Neue', Arial, sans-serif;
+            font-size: 3.5vw;
+            font-weight: bold;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+            max-width: 60%;
+            word-wrap: break-word;
+            line-height: 1;
+        }
+        
+        .normal-mode .social-handle {
+            position: absolute;
+            top: 5%;
+            right: 5%;
+            padding: 3% 4%;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 2.8vw;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .normal-mode .content {
+            position: absolute;
+            bottom: 8%;
+            left: 8%;
+            right: 8%;
+        }
+        
+        .normal-mode .secondary-text {
+            color: white;
+            font-size: 4vw;
+            font-weight: bold;
+            margin-bottom: 3%;
+            font-family: 'Bebas Neue', Arial, sans-serif;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        
+        .normal-mode .main-text {
+            font-weight: bold;
+            font-family: 'Bebas Neue', Arial, sans-serif;
+            text-transform: uppercase;
+            line-height: 0.9;
+            word-wrap: break-word;
+            font-size: 5vw;
+        }
+        
+        .main-text .line {
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .main-text .line:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="thumbnail" class="thumbnail">
+        <div class="overlay"></div>
+        
+        <!-- Micro Mode (under 200px) -->
+        <div class="micro-mode">
+            <div id="podcastNameMicro" class="podcast-name"></div>
+            <div id="mainTextMicro" class="main-text"></div>
+        </div>
+        
+        <!-- Small Mode (200px - 400px) -->
+        <div class="small-mode">
+            <div id="podcastNameSmall" class="podcast-name"></div>
+            <div id="socialHandleSmall" class="social-handle"></div>
+            <div class="content">
+                <div id="secondaryTextSmall" class="secondary-text"></div>
+                <div id="mainTextSmall" class="main-text"></div>
+            </div>
+        </div>
+        
+        <!-- Normal Mode (400px+) -->
+        <div class="normal-mode">
+            <div id="podcastNameNormal" class="podcast-name"></div>
+            <div id="socialHandleNormal" class="social-handle"></div>
+            <div class="content">
+                <div id="secondaryTextNormal" class="secondary-text"></div>
+                <div id="mainTextNormal" class="main-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Color themes
+        const themes = [
+            { primary: '#00ff64', secondary: '#00cc50', bg: 'rgba(0, 255, 100, 0.3)' },
+            { primary: '#FFA500', secondary: '#ff8c00', bg: 'rgba(255, 165, 0, 0.3)' },
+            { primary: '#00bfff', secondary: '#0080ff', bg: 'rgba(0, 191, 255, 0.3)' },
+            { primary: '#8A2BE2', secondary: '#9932cc', bg: 'rgba(138, 43, 226, 0.3)' },
+            { primary: '#ff1493', secondary: '#ff69b4', bg: 'rgba(255, 20, 147, 0.3)' },
+            { primary: '#ffff00', secondary: '#ffd700', bg: 'rgba(255, 255, 0, 0.3)' },
+            { primary: '#ff4500', secondary: '#dc143c', bg: 'rgba(255, 69, 0, 0.3)' },
+            { primary: '#00ffff', secondary: '#00ced1', bg: 'rgba(0, 255, 255, 0.3)' },
+            { primary: '#32cd32', secondary: '#228b22', bg: 'rgba(50, 205, 50, 0.3)' },
+            { primary: '#ff00ff', secondary: '#da70d6', bg: 'rgba(255, 0, 255, 0.3)' },
+            { primary: '#daa520', secondary: '#b8860b', bg: 'rgba(218, 165, 32, 0.3)' },
+            { primary: '#ff7f50', secondary: '#ff6347', bg: 'rgba(255, 127, 80, 0.3)' },
+            { primary: '#00ff7f', secondary: '#00fa9a', bg: 'rgba(0, 255, 127, 0.3)' },
+            { primary: '#7b68ee', secondary: '#6a5acd', bg: 'rgba(123, 104, 238, 0.3)' },
+            { primary: '#40e0d0', secondary: '#48d1cc', bg: 'rgba(64, 224, 208, 0.3)' },
+            { primary: '#ff8c00', secondary: '#ff7f00', bg: 'rgba(255, 140, 0, 0.3)' },
+            { primary: '#8b00ff', secondary: '#9400d3', bg: 'rgba(139, 0, 255, 0.3)' },
+            { primary: '#7fff00', secondary: '#adff2f', bg: 'rgba(127, 255, 0, 0.3)' },
+            { primary: '#dc143c', secondary: '#b22222', bg: 'rgba(220, 20, 60, 0.3)' },
+            { primary: '#7fffd4', secondary: '#66cdaa', bg: 'rgba(127, 255, 212, 0.3)' },
+            { primary: '#ffd700', secondary: '#ffb347', bg: 'rgba(255, 215, 0, 0.3)' }
+        ];
+
+        // Compact background images for small sizes
+        const backgroundImages = [
+            'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=225&fit=crop&crop=center',
+            'https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=400&h=225&fit=crop&crop=center',
+            'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=400&h=225&fit=crop&crop=center',
+            'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=225&fit=crop&crop=center',
+            'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=225&fit=crop&crop=center',
+            'https://images.unsplash.com/photo-1587440871875-191322ee64b0?w=400&h=225&fit=crop&crop=center',
+            'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=225&fit=crop&crop=center',
+            'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=225&fit=crop&crop=center'
+        ];
+
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                name: params.get('name') || 'PODCAST',
+                text: params.get('text') || 'EPISODE|CONTENT',
+                social: params.get('social') || '@POD'
+            };
+        }
+
+        function truncateText(text, maxLength) {
+            return text.length > maxLength ? text.substring(0, maxLength - 1) + '…' : text;
+        }
+
+        function detectSize() {
+            const width = window.innerWidth;
+            if (width < 250) return 'micro';  // Increased threshold for better readability
+            if (width < 400) return 'small';
+            return 'normal';
+        }
+
+        function generateThumbnail() {
+            const params = getUrlParams();
+            const textParts = params.text.split('|');
+            const mainText = textParts[0] || 'EPISODE';
+            const secondaryText = textParts[1] || 'CONTENT';
+            
+            // Randomly select theme and background
+            const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+            const randomBackgroundImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+            
+            // Detect size mode
+            const sizeMode = detectSize();
+            
+            // Hide all modes first
+            document.querySelector('.micro-mode').style.display = 'none';
+            document.querySelector('.small-mode').style.display = 'none';
+            document.querySelector('.normal-mode').style.display = 'none';
+            
+            // Show appropriate mode
+            document.querySelector(`.${sizeMode}-mode`).style.display = 'block';
+            
+            // Set background image
+            document.getElementById('thumbnail').style.backgroundImage = `url('${randomBackgroundImage}')`;
+            
+            // Apply content based on mode
+            if (sizeMode === 'micro') {
+                // Ultra compact for tiny sizes - BIGGER TEXT NOW!
+                document.getElementById('podcastNameMicro').textContent = truncateText(params.name, 12);
+                document.getElementById('mainTextMicro').textContent = truncateText(mainText, 15);
+                
+                // Apply theme with stronger shadows for readability
+                const podcastEl = document.getElementById('podcastNameMicro');
+                const mainEl = document.getElementById('mainTextMicro');
+                
+                podcastEl.style.color = randomTheme.primary;
+                podcastEl.style.backgroundColor = randomTheme.bg;
+                podcastEl.style.textShadow = `0 0 8px ${randomTheme.primary}, 2px 2px 4px rgba(0,0,0,0.9)`;
+                
+                mainEl.style.color = randomTheme.primary;
+                mainEl.style.textShadow = `0 0 10px ${randomTheme.primary}, 0 0 6px ${randomTheme.primary}, 2px 2px 6px rgba(0,0,0,0.95)`;
+                
+            } else if (sizeMode === 'small') {
+                // Compact for small sizes
+                document.getElementById('podcastNameSmall').textContent = truncateText(params.name, 15);
+                document.getElementById('socialHandleSmall').textContent = truncateText(params.social, 8);
+                document.getElementById('secondaryTextSmall').textContent = truncateText(secondaryText, 12);
+                document.getElementById('mainTextSmall').textContent = truncateText(mainText, 20);
+                
+                // Apply theme
+                const podcastEl = document.getElementById('podcastNameSmall');
+                const mainEl = document.getElementById('mainTextSmall');
+                const secondaryEl = document.getElementById('secondaryTextSmall');
+                
+                podcastEl.style.color = randomTheme.primary;
+                podcastEl.style.borderColor = randomTheme.primary;
+                podcastEl.style.backgroundColor = randomTheme.bg;
+                podcastEl.style.textShadow = `0 0 5px ${randomTheme.primary}`;
+                
+                mainEl.style.color = randomTheme.primary;
+                mainEl.style.textShadow = `0 0 8px ${randomTheme.primary}, 2px 2px 4px rgba(0,0,0,0.9)`;
+                
+                secondaryEl.style.textShadow = `0 0 6px rgba(255,255,255,0.9), 2px 2px 4px rgba(0,0,0,0.9)`;
+                
+            } else {
+                // Full layout for normal sizes
+                document.getElementById('podcastNameNormal').textContent = params.name;
+                document.getElementById('socialHandleNormal').textContent = params.social;
+                document.getElementById('secondaryTextNormal').textContent = secondaryText;
+                document.getElementById('mainTextNormal').textContent = mainText;
+                
+                // Apply theme
+                const podcastEl = document.getElementById('podcastNameNormal');
+                const mainEl = document.getElementById('mainTextNormal');
+                const secondaryEl = document.getElementById('secondaryTextNormal');
+                
+                podcastEl.style.color = randomTheme.primary;
+                podcastEl.style.borderColor = randomTheme.primary;
+                podcastEl.style.backgroundColor = randomTheme.bg;
+                podcastEl.style.textShadow = `0 0 15px ${randomTheme.primary}90, 0 0 30px ${randomTheme.primary}70`;
+                podcastEl.style.boxShadow = `0 0 30px ${randomTheme.primary}50`;
+                
+                mainEl.style.color = randomTheme.primary;
+                mainEl.style.textShadow = `
+                    0 0 40px ${randomTheme.primary}95, 
+                    0 0 25px ${randomTheme.primary}85, 
+                    0 0 15px ${randomTheme.primary}75, 
+                    4px 4px 15px rgba(0,0,0,0.95)
+                `;
+                
+                secondaryEl.style.textShadow = `0 0 20px rgba(255,255,255,0.9), 3px 3px 8px rgba(0,0,0,0.9)`;
+            }
+        }
+
+        // Regenerate on resize
+        window.addEventListener('resize', generateThumbnail);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', generateThumbnail);
+
+        // Handle URL changes
+        function watchForChanges() {
+            let currentUrl = window.location.href;
+            setInterval(() => {
+                if (window.location.href !== currentUrl) {
+                    currentUrl = window.location.href;
+                    generateThumbnail();
+                }
+            }, 1000);
+        }
+
+        watchForChanges();
+    </script>
+</body>
+</html>
