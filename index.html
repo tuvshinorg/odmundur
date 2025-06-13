@@ -582,21 +582,23 @@
                 // Parse the JSON response
                 const data = await response.json();
 
-                // Update the cart sum price element
-                // Assuming the API returns the price as a string/number or HTML content
+                // Update the cart element with HTML content
                 const cartElement = document.getElementById('cart');
                 if (cartElement) {
-                    // If data is HTML content
+                    // If the API returns HTML content as a string, append it
                     if (typeof data === 'string') {
-                        cartElement.innerHTML = data;
+                        cartElement.innerHTML += data; // Append to existing content
+                        // Or use: cartElement.innerHTML = data; // Replace existing content
                     }
-                    // If data is an object with price information
-                    else if (typeof data === 'object' && data.price !== undefined) {
-                        cartElement.textContent = data.price;
+                    // If data is an object containing HTML
+                    else if (typeof data === 'object' && data.html) {
+                        cartElement.innerHTML += data.html;
                     }
-                    // If data is just a number
-                    else if (typeof data === 'number') {
-                        cartElement.textContent = data;
+                    // If you want to create a new element and append it
+                    else if (typeof data === 'string') {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = data;
+                        cartElement.appendChild(tempDiv.firstElementChild || tempDiv);
                     }
                 }
 
