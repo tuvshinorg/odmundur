@@ -575,7 +575,7 @@
                 const data = await response.json();
 
                 // Show success message
-                if (data.success) {
+                if (data == '1111') {
                     setFlashMessage('success', 'Амжилттай сагсанд нэмэгдлээ!');
                 } else {
                     setFlashMessage('error', data.message || 'Сагсанд нэмэхэд алдаа гарлаа');
