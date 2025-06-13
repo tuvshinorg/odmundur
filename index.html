@@ -386,10 +386,6 @@
             api();
         });
 
-        function addToCart(podcastId, podcastDate) {
-            console.log(podcastId, podcastDate);
-        }
-
         // Function to show the appropriate skeleton based on the page
         function showPageSkeleton(page) {
             // Hide all skeleton pages first
@@ -553,7 +549,7 @@
         }
 
         // Function to add product to cart
-        async function addToCart(product) {
+        async function addToCart(podcastId, podcastDate) {
             try {
                 // Show loading state
                 setFlashMessage('info', 'Сагсанд нэмж байна...');
@@ -561,11 +557,9 @@
                 // Create form data for the POST request
                 const formData = new FormData();
                 formData.append('key', 'xxxx');
-                formData.append('action', 'add_to_cart');
-                formData.append('product_title', product.title);
-                formData.append('product_image', product.image);
-                formData.append('product_day', product.day);
-                formData.append('product_alt', product.alt);
+                formData.append('action', 'addToCart');
+                formData.append('podcastId', podcastId);
+                formData.append('podcastDate', podcastDate);
 
                 // Include UUID parameter if it exists
                 if (typeof userUUID !== 'undefined') {
