@@ -147,7 +147,6 @@
             </div>
             <nav class="nav-tools">
                 <div class="mgc_menu_line fs-nav mobile-menu-toggle" aria-label="Toggle menu"></div>
-                <div class="mgc_search_2_line fs-nav" onclick="window.location.href=`index.html?page=search`"></div>
                 <div class="mgc_shopping_cart_1_line fs-nav" onclick="window.location.href=`index.html?page=cart`"></div>
                 <div id="toggleLightButton" class="mgc_sun_line fs-nav"></div>
                 <div id="toggleDarkButton" class="mgc_moon_line fs-nav"></div>
@@ -381,12 +380,6 @@
                 }, 5000);
             }
 
-            // Set correct profile link based on login status
-            const profileLink = document.getElementById('profileLink');
-            if (profileLink) {
-                profileLink.href = isUserLoggedIn() ? 'profile.html' : 'login.html';
-                profileLink.setAttribute('aria-label', isUserLoggedIn() ? 'Your profile' : 'Login');
-            }
 
             // Call the API function to load content
             api();
@@ -460,6 +453,8 @@
                 const pageParam = urlParams.get('page'); // Default to calendar
                 const productParam = urlParams.get('product'); // Get product parameter
                 const dateParam = urlParams.get('date'); // Get date parameter
+                const yearParam = urlParams.get('year'); // Get year parameter
+                const monthParam = urlParams.get('month'); // Get month parameter
 
                 // Show appropriate skeleton based on the current page
                 showPageSkeleton(pageParam);
@@ -467,7 +462,7 @@
                 const formData = new FormData();
                 formData.append('key', 'xxxx');
 
-                if (!pageParam && !productParam && !dateParam) {
+                if (!pageParam && !productParam && !dateParam && !yearParam && !monthParam) {
                     formData.append('page', 'calendar');
                 }
 
@@ -490,6 +485,16 @@
                 // Include date parameter if it exists
                 if (dateParam) {
                     formData.append('date', dateParam);
+                }
+
+                // Include year parameter if it exists
+                if (yearParam) {
+                    formData.append('year', yearParam);
+                }
+
+                // Include month parameter if it exists
+                if (monthParam) {
+                    formData.append('month', monthParam);
                 }
 
                 // Make the POST request to your API endpoint
