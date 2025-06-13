@@ -19,8 +19,6 @@
             }
             // Initialize dark mode
             initDarkMode();
-            // Display flash message if exists
-            displayFlashMessage();
 
             // Add event listeners - with checks to ensure elements exist
             const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
@@ -66,36 +64,18 @@
         }
 
         // Flash message functionality
-        function displayFlashMessage() {
-            const flashMessage = getFlashMessage();
-            if (flashMessage) {
-                const messageContainer = document.createElement('div');
-                messageContainer.className = `flash-message flash-${flashMessage.type}`;
-                messageContainer.textContent = flashMessage.text;
-                const header = document.querySelector('header');
-                if (header) {
-                    header.parentNode.insertBefore(messageContainer, header.nextSibling);
-                    // Auto-remove after 5 seconds
-                    setTimeout(() => {
-                        messageContainer.remove();
-                    }, 5000);
-                }
+        function displayFlashMessage(type, text) {
+            const messageContainer = document.createElement('div');
+            messageContainer.className = `flash-message flash-${type}`;
+            messageContainer.textContent = text;
+            const header = document.querySelector('header');
+            if (header) {
+                header.parentNode.insertBefore(messageContainer, header.nextSibling);
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    messageContainer.remove();
+                }, 2000);
             }
-        }
-
-        // Helper function to get flash messages from localStorage
-        function getFlashMessage() {
-            const message = localStorage.getItem('flashMessage');
-            if (message) {
-                localStorage.removeItem('flashMessage');
-                return JSON.parse(message);
-            }
-            return null;
-        }
-
-        // Helper function to set flash messages
-        function setFlashMessage(type, text) {
-            localStorage.setItem('flashMessage', JSON.stringify({ type, text }));
         }
 
         // Check login status
@@ -529,13 +509,7 @@
 
                 // Show error message in place of the skeleton
                 if (skeletonLoader) {
-                    skeletonLoader.innerHTML = `
-                <div class="error-message">
-                    <h3>Одоогоор засагдаж байна!</h3>
-                    <p>Та дараа дахин оролдоно уу</p>
-                    <button class="btn btn-primary" onclick="history.back()">Буцах</button>
-                </div>
-            `;
+                    skeletonLoader.innerHTML = `<div class="error-message"><h3>Одоогоор засагдаж байна!</h3><p>Та дараа дахин оролдоно уу</p><button class="btn btn-primary" onclick="history.back()">Буцах</button></div>`;
                 }
 
                 return null;
@@ -545,9 +519,6 @@
         // Function to add product to cart
         async function addToCart(podcastId, podcastDate) {
             try {
-                // Show loading state
-                setFlashMessage('info', 'Сагсанд нэмж байна...');
-
                 // Create form data for the POST request
                 const formData = new FormData();
                 formData.append('key', 'xxxx');
@@ -576,15 +547,14 @@
 
                 // Show success message
                 if (data == '1111') {
-                    setFlashMessage('success', 'Амжилттай сагсанд нэмэгдлээ!');
+                    displayFlashMessage('success', 'Амжилттай сагсанд нэмэгдлээ!');
                 } else {
-                    setFlashMessage('error', data || 'Сагсанд нэмэхэд алдаа гарлаа');
+                    displayFlashMessage('error', 'Сагсанд нэмэхэд алдаа гарлаа');
                 }
 
                 return data;
             } catch (error) {
-                console.log('Error adding to cart:', error);
-                setFlashMessage('error', 'Сагсанд нэмэхэд алдаа гарлаа');
+                displayFlashMessage('error', 'Сагсанд нэмэхэд алдаа гарлаа');
                 return null;
             }
         }

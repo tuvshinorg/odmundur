@@ -625,7 +625,7 @@ body.light-mode .add-icon {
 .remove-btn {
     background: none;
     border: none;
-    color: #777;
+    color: #000000;
     cursor: pointer;
     display: flex;
     align-items: center;
