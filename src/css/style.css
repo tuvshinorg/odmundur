@@ -1046,7 +1046,7 @@ body.light-mode .nav-tab {
 }
 
 /* Mobile Responsive Styles - Using Bootstrap's responsive approach */
-@media (max-width: 767.98px) {
+@media (max-width: 600px) {
     .mobile-menu-toggle {
         display: block;
     }
