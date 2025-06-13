@@ -509,12 +509,7 @@
 
                 // Show error message in place of the skeleton
                 if (skeletonLoader) {
-                    skeletonLoader.innerHTML = `
-                    <div class="error-message">
-                        <h3>Одоогоор засагдаж байна!</h3><p>Та дараа дахин оролдоно уу</p>
-                        <button class="btn btn-primary" onclick="history.back()">Буцах</button>
-                    </div>
-                    `;
+                    skeletonLoader.innerHTML = '<div class="error-message"><h3>Одоогоор засагдаж байна!</h3><p>Та дараа дахин оролдоно уу</p><button class="btn btn-primary" onclick="history.back()">Буцах</button></div>';
                 }
 
                 return null;
