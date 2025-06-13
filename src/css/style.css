@@ -642,10 +642,10 @@ body.light-mode .remove-btn {
 }
 
 .cart-item-image {
-    width: 120px;
-    height: 70px;
+    width: 320px;
+    height: 180px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .cart-options {
