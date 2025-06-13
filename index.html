@@ -542,12 +542,6 @@
             }
         }
 
-        // Function to check if user is logged in
-        function isUserLoggedIn() {
-            // This is a placeholder - implement according to your authentication logic
-            return !!getCookie('user_session') || !!localStorage.getItem('authToken');
-        }
-
         // Function to add product to cart
         async function addToCart(podcastId, podcastDate) {
             try {
