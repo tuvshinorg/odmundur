@@ -554,7 +554,7 @@ body.light-mode .broadcast-time {
 }
 
 body.light-mode .cart-items {
-    background-color: #ffffff;
+    background-color: transparent;
 }
 
 .cart-title {
@@ -582,7 +582,7 @@ body.light-mode .cart-title {
 }
 
 body.light-mode .cart-item {
-    background-color: #f8f8f8;
+    background-color: #ffffff;
 }
 
 .cart-item-header {
