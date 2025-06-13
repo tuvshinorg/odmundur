@@ -101,8 +101,6 @@
                 uuid = generateUUID();
                 localStorage.setItem(storageKey, uuid);
                 console.log('New UUID generated and stored:', uuid);
-            } else {
-                console.log('Retrieved existing UUID:', uuid);
             }
 
             return uuid;
