@@ -513,9 +513,9 @@
 
         // Function to add product to cart
         async function addToCart(id, podcastId, podcastDate) {
+            var cartId = 'card-' + podcastId + '-' + podcastDate + '-' + id;
+            document.getElementById(cartId).innerHTML = '<i class="mgc_bookmark_fill me-1"></i>САГСЛАСАН';
             try {
-                var id = 'card-' + podcastId + '-' + podcastDate + '-' + id;
-                document.getElementById(id).innerHTML = '<i class="mgc_bookmark_fill me-1"></i>САГСЛАСАН';
                 // Create form data for the POST request
                 const formData = new FormData();
                 formData.append('key', 'xxxx');
