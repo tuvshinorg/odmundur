@@ -147,7 +147,8 @@
             </div>
             <nav class="nav-tools">
                 <div class="mgc_menu_line fs-nav mobile-menu-toggle" aria-label="Toggle menu"></div>
-                <div class="mgc_shopping_cart_1_line fs-nav" onclick="window.location.href=`index.html?page=cart`"></div>
+                <div class="mgc_shopping_cart_1_line fs-nav" onclick="window.location.href=`index.html?page=cart`">
+                </div>
                 <div id="toggleLightButton" class="mgc_sun_line fs-nav"></div>
                 <div id="toggleDarkButton" class="mgc_moon_line fs-nav"></div>
             </nav>
@@ -383,41 +384,11 @@
 
             // Call the API function to load content
             api();
-
-            // Add event delegation for dynamically loaded cart buttons
-            document.addEventListener('click', function(e) {
-                // Check if clicked element contains "САГСЛАХ" text
-                if (e.target.textContent && e.target.textContent.includes('САГСЛАХ')) {
-                    e.preventDefault();
-                    
-                    // Find the closest calendar day container
-                    const calendarDay = e.target.closest('.calendar-day');
-                    if (calendarDay) {
-                        // Extract product information
-                        const dayNumber = calendarDay.querySelector('.day-number')?.textContent;
-                        const productElement = e.target.closest('div[style*="background:#111"]');
-                        
-                        if (productElement) {
-                            const title = productElement.querySelector('div[style*="height: 70px"]')?.textContent?.trim();
-                            const imgElement = productElement.querySelector('img');
-                            const imgSrc = imgElement?.src;
-                            const imgAlt = imgElement?.alt;
-                            
-                            // Create product object
-                            const product = {
-                                title: title || imgAlt || 'Unknown Product',
-                                image: imgSrc || '',
-                                day: dayNumber || '',
-                                alt: imgAlt || ''
-                            };
-                            
-                            // Call add to cart function
-                            addToCart(product);
-                        }
-                    }
-                }
-            });
         });
+
+        function addToCart(podcastId, podcastDate) {
+            console.log(podcastId, podcastDate);
+        }
 
         // Function to show the appropriate skeleton based on the page
         function showPageSkeleton(page) {
@@ -586,7 +557,7 @@
             try {
                 // Show loading state
                 setFlashMessage('info', 'Сагсанд нэмж байна...');
-                
+
                 // Create form data for the POST request
                 const formData = new FormData();
                 formData.append('key', 'xxxx');
@@ -595,7 +566,7 @@
                 formData.append('product_image', product.image);
                 formData.append('product_day', product.day);
                 formData.append('product_alt', product.alt);
-                
+
                 // Include UUID parameter if it exists
                 if (typeof userUUID !== 'undefined') {
                     formData.append('uuid', userUUID);
@@ -614,7 +585,7 @@
 
                 // Parse the JSON response
                 const data = await response.json();
-                
+
                 // Show success message
                 if (data.success) {
                     setFlashMessage('success', 'Амжилттай сагсанд нэмэгдлээ!');
