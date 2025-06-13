@@ -642,8 +642,8 @@ body.light-mode .remove-btn {
 }
 
 .cart-item-image {
-    width: 256px;
-    height: 144px;
+    width: 195.56px;
+    height: 110px;
     object-fit: cover;
     border-radius: 10px;
 }
