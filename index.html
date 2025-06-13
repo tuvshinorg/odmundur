@@ -578,7 +578,7 @@
                 if (data == '1111') {
                     setFlashMessage('success', 'Амжилттай сагсанд нэмэгдлээ!');
                 } else {
-                    setFlashMessage('error', data.message || 'Сагсанд нэмэхэд алдаа гарлаа');
+                    setFlashMessage('error', data || 'Сагсанд нэмэхэд алдаа гарлаа');
                 }
 
                 return data;
