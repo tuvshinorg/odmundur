@@ -562,25 +562,48 @@
                 const formData = new FormData();
                 formData.append('key', 'xxxx');
                 formData.append('action', 'cartSumPrice');
+
                 // Include UUID parameter if it exists
                 if (typeof userUUID !== 'undefined') {
                     formData.append('uuid', userUUID);
                 }
+
                 // Make the POST request to your API endpoint
                 const response = await fetch('https://www.suljee.com/api/index.php', {
                     method: 'POST',
                     body: formData
                 });
+
                 // Check if the request was successful
-                if (response.code != 200) {
+                if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
+
                 // Parse the JSON response
                 const data = await response.json();
-                console.log(data);
+
                 // Update the cart sum price element
-                document.getElementById('cart').appendChild(data);
+                // Assuming the API returns the price as a string/number or HTML content
+                const cartElement = document.getElementById('cart');
+                if (cartElement) {
+                    // If data is HTML content
+                    if (typeof data === 'string') {
+                        cartElement.innerHTML = data;
+                    }
+                    // If data is an object with price information
+                    else if (typeof data === 'object' && data.price !== undefined) {
+                        cartElement.textContent = data.price;
+                    }
+                    // If data is just a number
+                    else if (typeof data === 'number') {
+                        cartElement.textContent = data;
+                    }
+                }
+
+                return data;
+
             } catch (error) {
+                console.error('Error in sumTotalPrice:', error);
                 displayFlashMessage('error', 'Интернэт холболт алдагдсан байна');
                 return null;
             }
@@ -617,15 +640,29 @@
                 // Show success message
                 if (data == '1111') {
                     displayFlashMessage('success', 'Амжилттай сагснаас хасагдлаа!');
-                    document.getElementById(divId).remove();
-                    document.getElementById('cart-sum-price').remove();
+
+                    // Remove the item from DOM
+                    const itemElement = document.getElementById(divId);
+                    if (itemElement) {
+                        itemElement.remove();
+                    }
+
+                    // Remove existing cart sum price element if it exists
+                    const existingCartSum = document.getElementById('cart-sum-price');
+                    if (existingCartSum) {
+                        existingCartSum.remove();
+                    }
+
+                    // Update the total price
                     await sumTotalPrice();
                 } else {
                     displayFlashMessage('error', 'Сагснаас хасхад алдаа гарлаа');
                 }
 
                 return data;
+
             } catch (error) {
+                console.error('Error in removeFromCart:', error);
                 displayFlashMessage('error', 'Сагснаас хасхад алдаа гарлаа');
                 return null;
             }
