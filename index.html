@@ -572,13 +572,15 @@
                     body: formData
                 });
                 // Check if the request was successful
-                if (!response.ok) {
+                if (response.code != 200) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 // Parse the JSON response
                 const data = await response.json();
+                console.log(data);
+                document.getElementById('cart').innerHTML = data;
                 // Update the cart sum price element
-                document.getElementById('cart').appendChild(data);
+                //document.getElementById('cart').appendChild(data);
             } catch (error) {
                 displayFlashMessage('error', 'Интернэт холболт алдагдсан байна');
                 return null;
