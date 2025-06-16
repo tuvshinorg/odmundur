@@ -495,11 +495,20 @@
                 // If the element exists, update its content with the returned data
                 if (actualContent) {
                     // Check if data is JSON object with type, render HTML accordingly
-                    if (typeof data === 'object' && data.type) {
-                        actualContent.innerHTML = renderJsonToHtml(data);
-                    } else {
+                    if (typeof data === 'object' && data !== null) {
+                        if (data.type) {
+                            actualContent.innerHTML = renderJsonToHtml(data);
+                        } else {
+                            // Handle object without type - could be old format
+                            console.log('Data object without type:', data);
+                            actualContent.innerHTML = '<div>Error: Invalid data format</div>';
+                        }
+                    } else if (typeof data === 'string') {
                         // Fallback for old HTML string responses
                         actualContent.innerHTML = data;
+                    } else {
+                        console.log('Unexpected data type:', typeof data, data);
+                        actualContent.innerHTML = '<div>Error: Unexpected data format</div>';
                     }
                     actualContent.style.display = 'block';
                 }
